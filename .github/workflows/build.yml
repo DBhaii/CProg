@@ -1,0 +1,19 @@
+name: Build and Execute C Program
+
+on:
+  push:
+    branches:
+      - main  # Change this to match your branch name
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Check out the code
+      uses: actions/checkout@v2
+
+    - name: Build and Run C Program
+      run: |
+        gcc Centroid_Calc -o Centroid_Calc
+        ./Centroid_Calc
