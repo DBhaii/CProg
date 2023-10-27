@@ -1,0 +1,87 @@
+#include <stdio.h>
+#include <math.h>
+
+int main() {
+    int numShapes;
+
+    // Ask the user for the number of shapes
+    printf("Enter the number of shapes: ");
+    scanf("%d", &numShapes);
+
+    double totalX = 0.0;
+    double totalY = 0.0;
+    double totalA = 0.0;
+
+    // Loop to input shape details
+    for (int i = 1; i <= numShapes; i++) {
+        char shapeType;
+        double length, breadth, base, height, radius, area, x, y;
+        int isNegative;
+
+        // Ask the user for the type of shape (R for Rectangle, T for Triangle, C for Circle, S for Semicircle)
+        printf("Enter shape type for shape %d (R for Rectangle, T for Triangle, C for Circle, S for Semicircle): ", i);
+        scanf(" %c", &shapeType);
+
+        // Input shape attributes based on the type
+        if (shapeType == 'R' || shapeType == 'r') {
+            // Rectangle
+            printf("Enter length for rectangle %d: ", i);
+            scanf("%lf", &length);
+            printf("Enter breadth for rectangle %d: ", i);
+            scanf("%lf", &breadth);
+            area = length * breadth;
+        } else if (shapeType == 'T' || shapeType == 't') {
+            // Triangle
+            printf("Enter base for triangle %d: ", i);
+            scanf("%lf", &base);
+            printf("Enter height for triangle %d: ", i);
+            scanf("%lf", &height);
+            area = 0.5 * base * height;
+        } else if (shapeType == 'C' || shapeType == 'c') {
+            // Circle
+            printf("Enter radius for circle %d: ", i);
+            scanf("%lf", &radius);
+            area = 3.14159265359 * radius * radius;
+        } else if (shapeType == 'S' || shapeType == 's') {
+            // Semicircle
+            printf("Enter radius for semicircle %d: ", i);
+            scanf("%lf", &radius);
+            area = 0.5 * 3.14159265359 * radius * radius;
+        } else {
+            printf("Unsupported shape type. Please enter R for Rectangle, T for Triangle, C for Circle, S for Semicircle.\n");
+            i--; // Decrement i to re-enter shape details
+            continue;
+        }
+
+        // Ask the user whether the area should be considered negative or positive
+        printf("Is the area of shape %d negative? (1 for yes, 0 for no): ", i);
+        scanf("%d", &isNegative);
+
+        // If the area should be considered negative, make it negative
+        if (isNegative) {
+            area = -area;
+        }
+
+        // Input centroid coordinates (Xi, Yi)
+        printf("Enter X-coordinate for centroid of shape %d: ", i);
+        scanf("%lf", &x);
+        printf("Enter Y-coordinate for centroid of shape %d: ", i);
+        scanf("%lf", &y);
+
+        // Calculate AiXi and AiYi, and accumulate totalX, totalY, and totalA
+        double AiXi = area * x;
+        double AiYi = area * y;
+        totalX += AiXi;
+        totalY += AiYi;
+        totalA += fabs(area); // Calculate the absolute value of the area
+    }
+
+    // Calculate the final centroid coordinates (X, Y) using the formula (Σ(AiXi) / Σ|Ai|, Σ(AiYi) / Σ|Ai|)
+    double finalCentroidX = totalX / totalA;
+    double finalCentroidY = totalY / totalA;
+
+    // Print the final centroid coordinates
+    printf("The centroid of the final shape is: (%.2lf, %.2lf)\n", finalCentroidX, finalCentroidY);
+
+    return 0;
+}
